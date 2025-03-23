@@ -1,12 +1,11 @@
 import { User } from "@/types/user";
 
-// Direct endpoint without /api prefix
-const API_URL = '/users';
+const API_URL = '/api/users';
 
 export const fetchUsers = async (): Promise<User[]> => {
   try {
     console.log("Fetching users from:", API_URL);
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/paginated`);
     
     if (!response.ok) {
       console.error("Error response:", response.status, response.statusText);
@@ -16,7 +15,7 @@ export const fetchUsers = async (): Promise<User[]> => {
     const data = await response.json();
     console.log("Received data:", data);
     
-    return data.data;
+    return data.data.content;
   } catch (error) {
     console.error('Error fetching users:', error);
     throw error;
